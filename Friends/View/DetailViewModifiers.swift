@@ -69,7 +69,7 @@ struct DetailsInformationView: View {
 
 struct DetailsFriendsListView: View {
     var userMetaData: User
-    var friendMetaData: User.Friend
+    var friendMetaData: [User.Friend]
     
     var body: some View {
         Text("Friends")
@@ -77,6 +77,31 @@ struct DetailsFriendsListView: View {
             .foregroundColor(.white)
             .frame(maxWidth: .infinity, maxHeight: 5, alignment: .leading)
         
+        List {
+            ForEach(friendMetaData) { friend in
+                VStack(spacing: 10) {
+                    HStack(spacing: 20) {
+                        Text("Name")
+                            .foregroundColor(.steel)
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text(friend.name)
+                            .foregroundColor(.aluminum)
+                    }
+                    HStack(spacing: 20) {
+                        Text("ID")
+                            .foregroundColor(.steel)
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text(friend.id)
+                            .foregroundColor(.aluminum)
+                    }
+                }
+                .padding()
+            }
+        }
+        
+        /*
         VStack(spacing: 10) {
             HStack(spacing: 20) {
                 Text("Name")
@@ -96,6 +121,7 @@ struct DetailsFriendsListView: View {
             }
         }
         .padding()
+         */
     }
 }
 

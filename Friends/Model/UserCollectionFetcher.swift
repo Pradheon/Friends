@@ -11,7 +11,7 @@ import Foundation
 class UserCollectionFetcher: ObservableObject {
     @Published var users: [User] = []
     @Published var friends: [User.Friend] = []
-    //@Published var registered:
+    //@Published var registered: String = ""
     @Published var sampleUserData = UserCollection(sample: User.sampleUserData)
     @Published var sampleFriendData = User.FriendCollection(sample: User.Friend.sampleFriendData)
     
@@ -30,7 +30,11 @@ class UserCollectionFetcher: ObservableObject {
         let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw FetchError.badRequest }
         
+        let dateDecoder = JSONDecoder()
+        dateDecoder.dateDecodingStrategy = .iso8601
+        
         users = try JSONDecoder().decode([User].self, from: data)
         friends = try JSONDecoder().decode([User.Friend].self, from: data)
+        //registered = try dateDecoder.decode(registered.self, from: data)
     }
 }

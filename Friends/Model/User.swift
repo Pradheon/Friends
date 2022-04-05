@@ -18,9 +18,9 @@ struct User: Identifiable, Codable {
     //var about: String
     var registered: String
     //var tags = [Tags]
-    var friends: [Friend]
+    var friends: [User.Friend]
     
-    init(id: String, isActive: Bool, name: String, age: Int, company: String, registered: String, friends: [Friend]) {
+    init(id: String, isActive: Bool, name: String, age: Int, company: String, registered: String, friends: [User.Friend]) {
         self.id = id
         self.isActive = isActive
         self.name = name
@@ -50,7 +50,7 @@ extension User {
     }
 
     struct FriendCollection: Codable {
-        var sample: [User.Friend]
+        var sample: [Friend]
     }
 }
 

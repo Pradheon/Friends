@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DetailView: View {
     var userMetaData: User
-    var friendMetaData: User.Friend
+    var friendMetaData: [User.Friend]
     
     var body: some View {
         ScrollView {
@@ -46,7 +46,7 @@ struct DetailView: View {
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(userMetaData: User.sampleUserData[0], friendMetaData: User.Friend.sampleFriendData[0])
+        DetailView(userMetaData: User.sampleUserData[0], friendMetaData: [User.Friend]())
             .preferredColorScheme(.dark)
     }
 }
