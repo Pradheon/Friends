@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct FriendsApp: App {
+    @StateObject private var fetcher = UserCollectionFetcher()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                ContentView(friendMetaData: User.Friend.sampleFriendData[0])
+                    .environmentObject(fetcher)
+                    .preferredColorScheme(.dark)
+            }
         }
     }
 }
