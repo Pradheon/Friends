@@ -7,7 +7,7 @@
 
 import Foundation
 
-/*
+
 struct Friend: Identifiable, Codable {
     var id: String
     var name: String
@@ -30,4 +30,3 @@ extension Friend {
         Friend(id: "be5918a3-8dc2-4f77-947c-7d02f69a58fe", name: "Berger Robertson")
     ]
 }
-*/

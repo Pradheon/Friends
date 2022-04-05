@@ -9,7 +9,6 @@ import SwiftUI
 
 struct DetailView: View {
     var userMetaData: User
-    var friendMetaData: [User.Friend]
     
     var body: some View {
         ScrollView {
@@ -32,7 +31,19 @@ struct DetailView: View {
                     
                     HorizontalDivider()
                     
-                    DetailsFriendsListView(userMetaData: userMetaData, friendMetaData: friendMetaData)
+                    DetailsAboutView(userMetaData: userMetaData)
+                    
+                    HorizontalDivider()
+                    
+                    DetailsContactView(userMetaData: userMetaData)
+                    
+                    HorizontalDivider()
+                    
+                    DetailsOtherView(userMetaData: userMetaData)
+                    
+                    HorizontalDivider()
+                    
+                    DetailsFriendsListView(userMetaData: userMetaData, friendMetaData: userMetaData.friends)
                 }
                 .padding()
                 
@@ -46,7 +57,7 @@ struct DetailView: View {
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(userMetaData: User.sampleUserData[0], friendMetaData: [User.Friend]())
+        DetailView(userMetaData: User.sampleUserData[0])
             .preferredColorScheme(.dark)
     }
 }

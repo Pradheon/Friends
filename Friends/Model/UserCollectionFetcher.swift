@@ -10,10 +10,9 @@ import Foundation
 @MainActor
 class UserCollectionFetcher: ObservableObject {
     @Published var users: [User] = []
-    @Published var friends: [User.Friend] = []
-    //@Published var registered: String = ""
-    @Published var sampleUserData = UserCollection(sample: User.sampleUserData)
-    @Published var sampleFriendData = User.FriendCollection(sample: User.Friend.sampleFriendData)
+    @Published var friends: [Friend] = []
+    //@Published var sampleUserData = UserCollection(sample: User.sampleUserData)
+    @Published var sampleFriendData = FriendCollection(sample: Friend.sampleFriendData)
     
     let urlString = "https://www.hackingwithswift.com/samples/friendface.json"
     
@@ -30,11 +29,10 @@ class UserCollectionFetcher: ObservableObject {
         let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw FetchError.badRequest }
         
-        let dateDecoder = JSONDecoder()
-        dateDecoder.dateDecodingStrategy = .iso8601
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
         
-        users = try JSONDecoder().decode([User].self, from: data)
-        friends = try JSONDecoder().decode([User.Friend].self, from: data)
-        //registered = try dateDecoder.decode(registered.self, from: data)
+        users = try decoder.decode([User].self, from: data)
+        friends = try decoder.decode([Friend].self, from: data)
     }
 }

@@ -13,7 +13,7 @@ struct FriendsApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                ContentView(friendMetaData: [User.Friend]())
+                ContentView()
                     .environmentObject(fetcher)
                     .preferredColorScheme(.dark)
             }
