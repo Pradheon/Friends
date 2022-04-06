@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CardView: View {
-    var userMetaData: User
+    @Binding var userMetaData: User
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -33,9 +33,11 @@ struct CardView: View {
     }
 }
 
+/*
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         CardView(userMetaData: User.sampleUserData[0])
             .previewLayout(.fixed(width: 400, height: 60))
     }
 }
+*/

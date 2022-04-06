@@ -29,7 +29,7 @@ extension View {
 }
 
 struct DetailsInformationView: View {
-    var userMetaData: User
+    @Binding var userMetaData: User
     
     var body: some View {
         Text("Information")
@@ -68,7 +68,7 @@ struct DetailsInformationView: View {
 }
 
 struct DetailsAboutView: View {
-    var userMetaData: User
+    @Binding var userMetaData: User
     
     var body: some View {
         Text("About")
@@ -85,7 +85,7 @@ struct DetailsAboutView: View {
 }
 
 struct DetailsContactView: View {
-    var userMetaData: User
+    @Binding var userMetaData: User
     
     var body: some View {
         Text("Contact")
@@ -116,7 +116,7 @@ struct DetailsContactView: View {
 }
 
 struct DetailsOtherView: View {
-    var userMetaData: User
+    @Binding var userMetaData: User
     
     var body: some View {
         Text("Other")
@@ -147,7 +147,7 @@ struct DetailsOtherView: View {
 }
 
 struct DetailsFriendsListView: View {
-    var userMetaData: User
+    @Binding var userMetaData: User
     var friendMetaData: [Friend]
     
     var body: some View {
@@ -158,7 +158,7 @@ struct DetailsFriendsListView: View {
         ForEach(friendMetaData) { friend in
             /// There is a bug here where if the user clicks on this it leads back to the same view.
             /// Currently working on a solution but not 100% sure yet how to fix it.
-            NavigationLink(destination: DetailView(userMetaData: userMetaData)) {
+            NavigationLink(destination: DetailView(userMetaData: $userMetaData, friendMetaData: userMetaData.friends)) {
                 VStack(alignment: .leading) {
                     Text(friend.name)
                         .accessibilityAddTraits(.isHeader)
@@ -175,11 +175,5 @@ struct DetailsFriendsListView: View {
                 .padding()
             }
         }
-    }
-}
-
-struct DetailViewModifiers_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailsInformationView(userMetaData: User.sampleUserData[0])
     }
 }
