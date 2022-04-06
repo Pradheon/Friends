@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CardView: View {
-    @Binding var userMetaData: User
+    var userMetaData: User
     
     var body: some View {
         VStack(alignment: .leading) {

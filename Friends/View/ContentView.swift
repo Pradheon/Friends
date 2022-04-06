@@ -12,9 +12,9 @@ struct ContentView: View {
 
     var body: some View {
         List {
-            ForEach($fetcher.users) { $user in
-                NavigationLink(destination: DetailView(userMetaData: $user, friendMetaData: user.friends)) {
-                    CardView(userMetaData: $user)
+            ForEach(fetcher.users) { user in
+                NavigationLink(destination: DetailView(fetcher: fetcher, userMetaData: user)) {
+                    CardView(userMetaData: user)
                 }
             }
         }

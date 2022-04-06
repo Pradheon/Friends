@@ -35,4 +35,8 @@ class UserCollectionFetcher: ObservableObject {
         users = try decoder.decode([User].self, from: data)
         friends = try decoder.decode([Friend].self, from: data)
     }
+    
+    func find(byID: String) -> User? {
+        return users.first { $0.id == byID }
+    }
 }

@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct DetailView: View {
-    @Binding var userMetaData: User
-    var friendMetaData: [Friend]
+    @ObservedObject var fetcher: UserCollectionFetcher
+    var userMetaData: User
+    //var friendMetaData: [Friend]
     
     var body: some View {
         ScrollView {
@@ -28,23 +29,29 @@ struct DetailView: View {
                 Spacer()
                 
                 VStack(alignment: .leading) {
-                    DetailsInformationView(userMetaData: $userMetaData)
+                    DetailsInformationView(userMetaData: userMetaData)
                     
                     HorizontalDivider()
                     
-                    DetailsAboutView(userMetaData: $userMetaData)
+                    DetailsAboutView(userMetaData: userMetaData)
                     
                     HorizontalDivider()
                     
-                    DetailsContactView(userMetaData: $userMetaData)
+                    DetailsContactView(userMetaData: userMetaData)
                     
                     HorizontalDivider()
                     
-                    DetailsOtherView(userMetaData: $userMetaData)
+                    DetailsOtherView(userMetaData: userMetaData)
                     
                     HorizontalDivider()
                     
-                    DetailsFriendsListView(userMetaData: $userMetaData, friendMetaData: userMetaData.friends)
+                    Text("Information")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity, maxHeight: 5, alignment: .leading)
+                    ForEach(userMetaData.friends) { friend in
+                        DetailsFriendView(fetcher: fetcher, friendMetaData: friend)
+                    }
                 }
                 .padding()
                 

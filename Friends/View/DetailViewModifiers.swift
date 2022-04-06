@@ -29,7 +29,7 @@ extension View {
 }
 
 struct DetailsInformationView: View {
-    @Binding var userMetaData: User
+    var userMetaData: User
     
     var body: some View {
         Text("Information")
@@ -68,7 +68,7 @@ struct DetailsInformationView: View {
 }
 
 struct DetailsAboutView: View {
-    @Binding var userMetaData: User
+    var userMetaData: User
     
     var body: some View {
         Text("About")
@@ -85,7 +85,7 @@ struct DetailsAboutView: View {
 }
 
 struct DetailsContactView: View {
-    @Binding var userMetaData: User
+    var userMetaData: User
     
     var body: some View {
         Text("Contact")
@@ -116,7 +116,7 @@ struct DetailsContactView: View {
 }
 
 struct DetailsOtherView: View {
-    @Binding var userMetaData: User
+    var userMetaData: User
     
     var body: some View {
         Text("Other")
@@ -147,10 +147,12 @@ struct DetailsOtherView: View {
 }
 
 struct DetailsFriendsListView: View {
-    @Binding var userMetaData: User
-    var friendMetaData: [Friend]
+    @ObservedObject var fetcher: UserCollectionFetcher
+    var userMetaData: User
+    //var friendMetaData: [Friend]
     
     var body: some View {
+        /*
         Text("Information")
             .font(.title2)
             .foregroundColor(.white)
@@ -158,7 +160,7 @@ struct DetailsFriendsListView: View {
         ForEach(friendMetaData) { friend in
             /// There is a bug here where if the user clicks on this it leads back to the same view.
             /// Currently working on a solution but not 100% sure yet how to fix it.
-            NavigationLink(destination: DetailView(userMetaData: $userMetaData, friendMetaData: userMetaData.friends)) {
+            NavigationLink(destination: DetailView(userMetaData: userMetaData, friendMetaData: userMetaData.friends)) {
                 VStack(alignment: .leading) {
                     Text(friend.name)
                         .accessibilityAddTraits(.isHeader)
@@ -174,6 +176,36 @@ struct DetailsFriendsListView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 .padding()
             }
+        }
+        */
+        NavigationLink(destination: DetailView(fetcher: fetcher, userMetaData: userMetaData)) {
+            VStack(alignment: .leading) {
+                Text(userMetaData.name)
+                    .accessibilityAddTraits(.isHeader)
+                    .font(.headline)
+                Spacer()
+                HStack {
+                    Label("\(userMetaData.id)", systemImage: "number.circle")
+                        .accessibilityLabel("ID: \(userMetaData.id)")
+                }
+                .font(.caption)
+                .foregroundColor(Color.aluminum)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .padding()
+        }
+    }
+}
+
+struct DetailsFriendView: View {
+    @ObservedObject var fetcher: UserCollectionFetcher
+    var friendMetaData: Friend
+    
+    var body: some View {
+        if let isFriend = fetcher.find(byID: friendMetaData.id) {
+            return AnyView(DetailsFriendsListView(fetcher: fetcher, userMetaData: isFriend))
+        } else {
+            return AnyView(Text(friendMetaData.name))
         }
     }
 }
