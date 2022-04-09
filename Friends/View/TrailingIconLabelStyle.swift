@@ -22,7 +22,7 @@ extension LabelStyle where Self == TrailingIconLabelStyle {
 
 
 struct TrailingIconActivityLabel: View {
-    var userMetaData: User
+    let userMetaData: CachedUser
     var body: some View {
         HStack {
             Text(userMetaData.isActive ? "Online" : "Offline")
@@ -30,6 +30,6 @@ struct TrailingIconActivityLabel: View {
                 .foregroundColor(userMetaData.isActive ? Color.green : Color.red)
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(userMetaData.isActive ? "\(userMetaData.name) is Online" : "\(userMetaData.name) is Offline")
+        .accessibilityLabel(userMetaData.isActive ? "\(userMetaData.wrappedName) is Online" : "\(userMetaData.wrappedName) is Offline")
     }
 }

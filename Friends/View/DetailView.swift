@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct DetailView: View {
-    @ObservedObject var fetcher: UserCollectionFetcher
-    var userMetaData: User
+    //@ObservedObject var fetcher: UserCollectionFetcher
+    let userMetaData: CachedUser
     //var friendMetaData: [Friend]
     
     var body: some View {
@@ -20,7 +20,7 @@ struct DetailView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: .infinity)
-                        .watermarked(with: userMetaData.id)
+                    .watermarked(with: "\(userMetaData.wrappedID)")
                     
                     ProfileImageView()
                         .offset(x: 15, y: 25)
@@ -45,20 +45,14 @@ struct DetailView: View {
                     
                     HorizontalDivider()
                     
-                    Text("Information")
-                        .font(.title2)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, maxHeight: 5, alignment: .leading)
-                    ForEach(userMetaData.friends) { friend in
-                        DetailsFriendView(fetcher: fetcher, friendMetaData: friend)
-                    }
+                    DetailsFriendsListView(userMetaData: userMetaData)
                 }
                 .padding()
                 
                 Spacer()
             }
         }
-        .navigationTitle(userMetaData.name)
+        .navigationTitle(userMetaData.wrappedName)
         .navigationBarTitleDisplayMode(.inline)
     }
 }

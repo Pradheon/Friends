@@ -29,7 +29,7 @@ extension View {
 }
 
 struct DetailsInformationView: View {
-    var userMetaData: User
+    let userMetaData: CachedUser
     
     var body: some View {
         Text("Information")
@@ -43,7 +43,7 @@ struct DetailsInformationView: View {
                     .foregroundColor(.steel)
                     .fontWeight(.bold)
                 Spacer()
-                Text(userMetaData.name)
+                Text(userMetaData.wrappedName)
                     .foregroundColor(.aluminum)
             }
             HStack(spacing: 20) {
@@ -51,7 +51,7 @@ struct DetailsInformationView: View {
                     .foregroundColor(.steel)
                     .fontWeight(.bold)
                 Spacer()
-                Text(userMetaData.company)
+                Text(userMetaData.wrappedCompany)
                     .foregroundColor(.aluminum)
             }
             HStack(spacing: 20) {
@@ -68,7 +68,7 @@ struct DetailsInformationView: View {
 }
 
 struct DetailsAboutView: View {
-    var userMetaData: User
+    let userMetaData: CachedUser
     
     var body: some View {
         Text("About")
@@ -77,7 +77,7 @@ struct DetailsAboutView: View {
             .frame(maxWidth: .infinity, maxHeight: 5, alignment: .leading)
         
         VStack(spacing: 10) {
-            Text(userMetaData.about)
+            Text(userMetaData.wrappedAbout)
                 .foregroundColor(.aluminum)
         }
         .padding()
@@ -85,7 +85,7 @@ struct DetailsAboutView: View {
 }
 
 struct DetailsContactView: View {
-    var userMetaData: User
+    let userMetaData: CachedUser
     
     var body: some View {
         Text("Contact")
@@ -99,7 +99,7 @@ struct DetailsContactView: View {
                     .foregroundColor(.steel)
                     .fontWeight(.bold)
                 Spacer()
-                Text(userMetaData.email)
+                Text(userMetaData.wrappedEmail)
                     .foregroundColor(.aluminum)
             }
             HStack(spacing: 20) {
@@ -107,7 +107,7 @@ struct DetailsContactView: View {
                     .foregroundColor(.steel)
                     .fontWeight(.bold)
                 Spacer()
-                Text(userMetaData.address)
+                Text(userMetaData.wrappedAddress)
                     .foregroundColor(.aluminum)
             }
         }
@@ -116,7 +116,7 @@ struct DetailsContactView: View {
 }
 
 struct DetailsOtherView: View {
-    var userMetaData: User
+    let userMetaData: CachedUser
     
     var body: some View {
         Text("Other")
@@ -130,7 +130,7 @@ struct DetailsOtherView: View {
                     .foregroundColor(.steel)
                     .fontWeight(.bold)
                 Spacer()
-                Text(userMetaData.id)
+                Text("\(userMetaData.wrappedID)")
                     .foregroundColor(.aluminum)
             }
             HStack(spacing: 20) {
@@ -138,7 +138,7 @@ struct DetailsOtherView: View {
                     .foregroundColor(.steel)
                     .fontWeight(.bold)
                 Spacer()
-                Text(userMetaData.dateString)
+                Text("\(userMetaData.wrappedRegistered)")
                     .foregroundColor(.aluminum)
             }
         }
@@ -147,28 +147,26 @@ struct DetailsOtherView: View {
 }
 
 struct DetailsFriendsListView: View {
-    @ObservedObject var fetcher: UserCollectionFetcher
-    var userMetaData: User
+    //@ObservedObject var fetcher: UserCollectionFetcher
+    let userMetaData: CachedUser
     //var friendMetaData: [Friend]
     
     var body: some View {
-        /*
-        Text("Information")
+        Text("Friends")
             .font(.title2)
             .foregroundColor(.white)
             .frame(maxWidth: .infinity, maxHeight: 5, alignment: .leading)
-        ForEach(friendMetaData) { friend in
-            /// There is a bug here where if the user clicks on this it leads back to the same view.
-            /// Currently working on a solution but not 100% sure yet how to fix it.
-            NavigationLink(destination: DetailView(userMetaData: userMetaData, friendMetaData: userMetaData.friends)) {
+        /// I once again can't figure out how to fix this because now it complains too much, so I'll work on a fix later. For now, party because Core Data worked.
+        ForEach(userMetaData.friendsArray, id: \.self) { friend in
+            NavigationLink(destination: DetailView(userMetaData: userMetaData)) {
                 VStack(alignment: .leading) {
-                    Text(friend.name)
+                    Text(friend.wrappedName)
                         .accessibilityAddTraits(.isHeader)
                         .font(.headline)
                     Spacer()
                     HStack {
-                        Label("\(friend.id)", systemImage: "number.circle")
-                            .accessibilityLabel("ID: \(friend.id)")
+                        Label("\(friend.wrappedID)", systemImage: "number.circle")
+                            .accessibilityLabel("ID: \(friend.wrappedID)")
                     }
                     .font(.caption)
                     .foregroundColor(Color.aluminum)
@@ -177,35 +175,25 @@ struct DetailsFriendsListView: View {
                 .padding()
             }
         }
-        */
-        NavigationLink(destination: DetailView(fetcher: fetcher, userMetaData: userMetaData)) {
-            VStack(alignment: .leading) {
-                Text(userMetaData.name)
-                    .accessibilityAddTraits(.isHeader)
-                    .font(.headline)
-                Spacer()
-                HStack {
-                    Label("\(userMetaData.id)", systemImage: "number.circle")
-                        .accessibilityLabel("ID: \(userMetaData.id)")
-                }
-                .font(.caption)
-                .foregroundColor(Color.aluminum)
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 5))
-            .padding()
-        }
     }
 }
 
+/*
 struct DetailsFriendView: View {
-    @ObservedObject var fetcher: UserCollectionFetcher
-    var friendMetaData: Friend
-    
+    //@ObservedObject var fetcher: UserCollectionFetcher
+    let friendMetaData: CachedFriend
+    let userMetaData: CachedUser
+
     var body: some View {
-        if let isFriend = fetcher.find(byID: friendMetaData.id) {
-            return AnyView(DetailsFriendsListView(fetcher: fetcher, userMetaData: isFriend))
+        if let isFriend = find(byID: friendMetaData.wrappedID) {
+            return AnyView(DetailsFriendsListView(userMetaData: isFriend))
         } else {
-            return AnyView(Text(friendMetaData.name))
+            return AnyView(Text(friendMetaData.wrappedName))
         }
     }
+    
+    func find(byID: UUID) -> CachedUser? {
+        return userMetaData.friendsArray.first?.users
+    }
 }
+ */

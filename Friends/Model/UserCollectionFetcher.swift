@@ -5,13 +5,15 @@
 //  Created by Joshan Rai on 4/4/22.
 //
 
+/*
 import Foundation
+import CoreData
 
 @MainActor
 class UserCollectionFetcher: ObservableObject {
     @Published var users: [User] = []
     @Published var friends: [Friend] = []
-    //@Published var sampleUserData = UserCollection(sample: User.sampleUserData)
+    @Published var sampleUserData = UserCollection(sample: User.sampleUserData)
     @Published var sampleFriendData = FriendCollection(sample: Friend.sampleFriendData)
     
     let urlString = "https://www.hackingwithswift.com/samples/friendface.json"
@@ -21,6 +23,7 @@ class UserCollectionFetcher: ObservableObject {
         case badJSON
     }
     
+    //  Fetch JSON data from the external server
     @available(iOS 15.0, *)
     func fetchData() async
     throws {
@@ -36,7 +39,11 @@ class UserCollectionFetcher: ObservableObject {
         friends = try decoder.decode([Friend].self, from: data)
     }
     
-    func find(byID: String) -> User? {
+    
+    
+    //  Find user by ID
+    func find(byID: UUID) -> User? {
         return users.first { $0.id == byID }
     }
 }
+*/

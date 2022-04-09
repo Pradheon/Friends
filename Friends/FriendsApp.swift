@@ -9,12 +9,15 @@ import SwiftUI
 
 @main
 struct FriendsApp: App {
-    @StateObject private var fetcher = UserCollectionFetcher()
+    //@StateObject private var fetcher = UserCollectionFetcher()
+    @StateObject var dataController = DataController()
+    
     var body: some Scene {
         WindowGroup {
             NavigationView {
                 ContentView()
-                    .environmentObject(fetcher)
+                    //.environmentObject(fetcher)
+                    .environment(\.managedObjectContext, dataController.container.viewContext)
                     .preferredColorScheme(.dark)
             }
         }

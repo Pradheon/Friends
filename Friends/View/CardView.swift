@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct CardView: View {
-    var userMetaData: User
+    let userMetaData: CachedUser
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(userMetaData.name)
+            Text(userMetaData.wrappedName)
                 .accessibilityAddTraits(.isHeader)
                 .font(.headline)
             Spacer()
             HStack {
-                Label("\(userMetaData.company)", systemImage: "building.2.crop.circle")
-                    .accessibilityLabel("works at \(userMetaData.company)")
+                Label("\(userMetaData.wrappedCompany)", systemImage: "building.2.crop.circle")
+                    .accessibilityLabel("works at \(userMetaData.wrappedCompany)")
                 Spacer()
                 /*
                 Label("\(userMetaData.isActive ? "Online" : "Offline")", systemImage: "circlebadge.fill")
